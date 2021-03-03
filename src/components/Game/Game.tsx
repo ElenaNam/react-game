@@ -81,8 +81,6 @@ class Game extends React.Component<GameProps, GameState> {
       this.setState({ count: this.state.count + 1 });
       this.setState({ cells: currentCells });
     }
-    console.log(currentCells);
-    console.log(this.state.count);
 
     //минимальное количество ходов для выигрыша - 5
     if (this.state.count >= 4) {
@@ -106,8 +104,6 @@ class Game extends React.Component<GameProps, GameState> {
         isEnd: false,
         resultMessage: "",
       });
-      console.log("componentDidUpdate " + this.props.newGame);
-      console.log("isEnd " + this.state.isEnd);
     }
 
     this.resetGame();
