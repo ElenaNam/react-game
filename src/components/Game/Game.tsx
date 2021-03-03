@@ -8,10 +8,10 @@ interface GameProps {
 }
 
 interface GameState {
-  cells: any[];
+  cells: (string | number | null)[];
   count: number;
   isEnd: boolean;
-  winMessage: string;
+  resultMessage: string;
 }
 
 class Game extends React.Component<GameProps, GameState> {
@@ -24,7 +24,7 @@ class Game extends React.Component<GameProps, GameState> {
       cells: Array(9).fill(null),
       count: 0,
       isEnd: false,
-      winMessage: "",
+      resultMessage: "",
     };
     this.myRef = React.createRef();
     this.lineWin = lineWin;
@@ -32,8 +32,8 @@ class Game extends React.Component<GameProps, GameState> {
 
   isEndGame = (): void => {
     const innerCell = !(this.state.count % 2) ? "X" : "O";
-    let win = "";
-
+    let message = "";
+    console.log("isEndGame");
     for (let i = 0; i < this.lineWin.length; i++) {
       const line = this.lineWin[i];
       if (
@@ -41,12 +41,15 @@ class Game extends React.Component<GameProps, GameState> {
         this.state.cells[line[1]] === innerCell &&
         this.state.cells[line[2]] === innerCell
       ) {
-        //console.log(line);
-        win = `${innerCell} win!`;
-        this.setState({ isEnd: true, winMessage: win });
+        console.log(line);
+        message = `${innerCell} win!`;
+        this.setState({ isEnd: true, resultMessage: message });
+      }
+      if (this.state.count === 8) {
+        message = "Ничья!";
+        this.setState({ isEnd: true, resultMessage: message });
       }
     }
-
     return;
   };
 
@@ -55,12 +58,12 @@ class Game extends React.Component<GameProps, GameState> {
     //console.log(this.state.isEnd);
     if (!this.state.isEnd) return;
     setTimeout(() => {
-      console.log("игра окончена");
+      //console.log("игра окончена");
       this.setState({
         cells: Array(9).fill(null),
         count: 0,
         isEnd: false,
-        winMessage: "",
+        resultMessage: "",
       });
       //console.log(this.state);
     }, 3000);
@@ -68,7 +71,6 @@ class Game extends React.Component<GameProps, GameState> {
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   clickHandler = (e: React.MouseEvent<HTMLElement>) => {
-    //e.stopPropagation();
     if (this.state.isEnd) return;
     const target = +e.currentTarget.id - 1;
     const currentCells = this.state.cells;
@@ -77,30 +79,35 @@ class Game extends React.Component<GameProps, GameState> {
       this.setState({ count: this.state.count + 1 });
       this.setState({ cells: currentCells });
     }
-    this.isEndGame();
+    console.log(currentCells);
+    console.log(this.state.count);
+    //минимальное количество ходов для выигрыша - 5
+    if (this.state.count >= 4) {
+      this.isEndGame();
+    }
+
     //console.log(this.state.isEnd);
   };
   componentDidMount() {
     //console.log("componentDidMount");
   }
   componentDidUpdate() {
-    console.log("componentDidUpdate");
-    console.log(this.state.cells);
+    //console.log("componentDidUpdate");
+    //console.log(this.state.cells);
     //this.state.isEnd ? this.setState({ cells: Array(9).fill(null) }) : false;
     this.resetGame();
-    console.log("componentDidUpDate");
-    console.log(this.state);
+    //console.log("componentDidUpDate");
+    //console.log(this.state);
   }
 
   render() {
     const cells = this.state.cells;
     const isEnd = this.state.isEnd;
-    const winMessage = this.state.winMessage;
+    const resultMessage = this.state.resultMessage;
 
     return (
       <Container maxWidth="md" style={root}>
-        {console.log("isEnd render" + isEnd)}
-        {isEnd ? <div style={message}>{winMessage}</div> : false}
+        {isEnd ? <div style={message}>{resultMessage}</div> : false}
         <div style={field}>
           {cells.map((item, i) => {
             return (

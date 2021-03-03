@@ -30,6 +30,10 @@ export const cell: CSS.Properties = {
   border: "1px solid",
   textAlign: "center",
   verticalAlign: "middle",
+
+  /*   &:hover: any {
+    border: '1ps solid black'
+  } */
 };
 
 export const text: CSS.Properties = {
