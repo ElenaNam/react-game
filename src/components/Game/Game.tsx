@@ -1,6 +1,7 @@
 import React from "react";
-import { root, cell, text } from "./Game.style";
+import { root, field, cell, text, message } from "./Game.style";
 import lineWin from "../../assets/data/lineWin";
+import { Container } from "@material-ui/core";
 
 interface GameProps {
   name: "123";
@@ -33,23 +34,42 @@ class Game extends React.Component<GameProps, GameState> {
     const innerCell = !(this.state.count % 2) ? "X" : "O";
     let win = "";
 
-    for (let i = 0; i < this.state.cells.length; i++) {
+    for (let i = 0; i < this.lineWin.length; i++) {
       const line = this.lineWin[i];
       if (
         this.state.cells[line[0]] === innerCell &&
         this.state.cells[line[1]] === innerCell &&
         this.state.cells[line[2]] === innerCell
       ) {
+        //console.log(line);
         win = `${innerCell} win!`;
         this.setState({ isEnd: true, winMessage: win });
       }
     }
+
     return;
+  };
+
+  resetGame = (): void => {
+    //console.log("reset");
+    //console.log(this.state.isEnd);
+    if (!this.state.isEnd) return;
+    setTimeout(() => {
+      console.log("игра окончена");
+      this.setState({
+        cells: Array(9).fill(null),
+        count: 0,
+        isEnd: false,
+        winMessage: "",
+      });
+      //console.log(this.state);
+    }, 3000);
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   clickHandler = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
+    //e.stopPropagation();
+    if (this.state.isEnd) return;
     const target = +e.currentTarget.id - 1;
     const currentCells = this.state.cells;
     if (currentCells[target] === null) {
@@ -58,30 +78,46 @@ class Game extends React.Component<GameProps, GameState> {
       this.setState({ cells: currentCells });
     }
     this.isEndGame();
+    //console.log(this.state.isEnd);
   };
+  componentDidMount() {
+    //console.log("componentDidMount");
+  }
+  componentDidUpdate() {
+    console.log("componentDidUpdate");
+    console.log(this.state.cells);
+    //this.state.isEnd ? this.setState({ cells: Array(9).fill(null) }) : false;
+    this.resetGame();
+    console.log("componentDidUpDate");
+    console.log(this.state);
+  }
 
   render() {
     const cells = this.state.cells;
     const isEnd = this.state.isEnd;
     const winMessage = this.state.winMessage;
-    return (
-      <div style={root}>
-        {isEnd ? <div>{winMessage}</div> : false}
-        {cells.map((item, i) => {
-          return (
-            <div
-              style={cell}
-              onClick={this.clickHandler}
-              key={i + 1}
-              id={(i + 1).toString()}
 
-              //ref={() => this.myRef}
-            >
-              <span style={text}>{this.state.cells[i]}</span>
-            </div>
-          );
-        })}
-      </div>
+    return (
+      <Container maxWidth="md" style={root}>
+        {console.log("isEnd render" + isEnd)}
+        {isEnd ? <div style={message}>{winMessage}</div> : false}
+        <div style={field}>
+          {cells.map((item, i) => {
+            return (
+              <div
+                style={cell}
+                onClick={this.clickHandler}
+                key={i + 1}
+                id={(i + 1).toString()}
+
+                //ref={() => this.myRef}
+              >
+                <span style={text}>{this.state.cells[i]}</span>
+              </div>
+            );
+          })}
+        </div>
+      </Container>
     );
   }
 }
