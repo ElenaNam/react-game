@@ -47,7 +47,7 @@ class Game extends React.Component<GameProps, GameState> {
       } else {
         if (this.state.count >= 8) {
           console.log(this.state.count);
-          message = "Ничья!";
+          message = "Draw!";
           this.setState({ isEnd: true, resultMessage: message });
         }
       }
@@ -83,6 +83,7 @@ class Game extends React.Component<GameProps, GameState> {
     }
     console.log(currentCells);
     console.log(this.state.count);
+
     //минимальное количество ходов для выигрыша - 5
     if (this.state.count >= 4) {
       this.isEndGame();
@@ -92,13 +93,19 @@ class Game extends React.Component<GameProps, GameState> {
   };
 
   componentDidMount() {
-    //console.log("componentDidMount");
+    localStorage.getItem("stateLocal")
+      ? this.setState(JSON.parse(localStorage.stateLocal))
+      : false;
   }
   componentDidUpdate() {
     //console.log("componentDidUpdate");
-    //console.log(this.state.cells);
-    //this.state.isEnd ? this.setState({ cells: Array(9).fill(null) }) : false;
+
     this.resetGame();
+
+    const stateLocal = localStorage.setItem(
+      "stateLocal",
+      JSON.stringify(this.state)
+    );
     //console.log("componentDidUpDate");
     //console.log(this.state);
   }
