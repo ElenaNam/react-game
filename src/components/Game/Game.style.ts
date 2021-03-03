@@ -1,23 +1,26 @@
 import CSS from "csstype";
 
 export const root: CSS.Properties = {
-  display: "flex",
+  /*   display: "flex",
+  height: "inherit",
   alignItems: "center",
   justifyContent: "center",
-  flexDirection: "column",
+  flexDirection: "column", */
+  //border: "1px solid yellow",
+  marginTop: "80px",
 };
 
 export const field: CSS.Properties = {
+  position: "relative",
   margin: "0 auto",
   display: "flex",
-  maxWidth: "600px",
-  maxHeight: "600px",
+  maxWidth: "480px",
+  maxHeight: "480px",
   /*   minHeight: "300px",
   minWidth: "300px", */
   width: "100%",
   height: "100%",
   flexWrap: "wrap",
-  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
 };
 
 export const cell: CSS.Properties = {
@@ -25,11 +28,14 @@ export const cell: CSS.Properties = {
   display: "flex",
   width: "100%",
   height: "100%",
-  maxWidth: "200px",
-  maxHeight: "200px",
-  border: "1px solid",
+  minHeight: "100px",
+  minWidth: "100px",
+  maxWidth: "160px",
+  maxHeight: "160px",
+  border: "1px solid black",
   textAlign: "center",
   verticalAlign: "middle",
+  background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
 
   /*   &:hover: any {
     border: '1ps solid black'
@@ -37,7 +43,7 @@ export const cell: CSS.Properties = {
 };
 
 export const text: CSS.Properties = {
-  fontSize: "125px",
+  fontSize: "100px",
   color: "wheat",
   display: "flex",
   margin: "0 auto",
@@ -46,11 +52,22 @@ export const text: CSS.Properties = {
 };
 export const message: CSS.Properties = {
   position: "absolute",
-  top: "10px",
+  left: 0,
+  right: 0,
+  maxWidth: "480px",
+  maxHeight: "480px",
+  /*   minHeight: "300px",
+  minWidth: "300px", */
+  width: "100%",
+  height: "100%",
+  //top: "65px",
   fontSize: "60px",
-  color: "tomato",
+  color: "white",
+  padding: "5px",
   display: "flex",
   margin: "0 auto",
   justifyContent: "center",
   alignItems: "center",
+  backgroundColor: "rgba(0, 170, 238, 0.9)",
+  zIndex: 20,
 };

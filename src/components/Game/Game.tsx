@@ -1,7 +1,7 @@
 import React from "react";
 import { root, field, cell, text, message } from "./Game.style";
 import lineWin from "../../assets/data/lineWin";
-import { Container } from "@material-ui/core";
+import { Container, Paper } from "@material-ui/core";
 
 interface GameProps {
   name: "123";
@@ -118,6 +118,7 @@ class Game extends React.Component<GameProps, GameState> {
 
     return (
       <Container maxWidth="md" style={root}>
+        <Paper elevation={2} />
         {isEnd ? <div style={message}>{resultMessage}</div> : false}
         <div style={field}>
           {cells.map((item, i) => {
