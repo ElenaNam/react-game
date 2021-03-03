@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Field from "./Field/Field";
 import Game from "./Game/Game";
-import BtnGroup from "./BtnGroup/BtnGroup";
 import Settings from "./Settings/Settings";
 import { Typography } from "@material-ui/core";
+import Btn from "./Btn/Btn";
 
 export const useStyles = makeStyles(() => ({
   root: {
@@ -32,16 +32,27 @@ export const useStyles = makeStyles(() => ({
 
 export default function App(): JSX.Element {
   const classes = useStyles();
+  const [isNewGame, setNewGame] = useState(false);
+
+  const handleClick = useCallback(() => {
+    setNewGame(true);
+  }, []);
+
+  useEffect(() => {
+    setNewGame(false);
+  }, [handleClick, isNewGame]);
+
   return (
     <div className={classes.root}>
       <Typography variant="h1">tic-tac-toe</Typography>
       {/* <Field /> */}
       <div className={classes.top}>
-        <BtnGroup />
+        <Btn handleClick={handleClick} name="New Game" />
+        {/* <Btn handleClick={handleClick} name="Statistic" /> */}
         {/* <Settings /> */}
       </div>
 
-      <Game name="123" />
+      <Game name="123" newGame={isNewGame} />
     </div>
   );
 }

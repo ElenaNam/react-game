@@ -5,6 +5,7 @@ import { Container, Paper } from "@material-ui/core";
 
 interface GameProps {
   name: "123";
+  newGame: boolean;
 }
 
 interface GameState {
@@ -57,17 +58,16 @@ class Game extends React.Component<GameProps, GameState> {
 
   resetGame = (): void => {
     //console.log("reset");
-    //console.log(this.state.isEnd);
+
     if (!this.state.isEnd) return;
+
     setTimeout(() => {
-      //console.log("игра окончена");
       this.setState({
         cells: Array(9).fill(null),
         count: 0,
         isEnd: false,
         resultMessage: "",
       });
-      //console.log(this.state);
     }, 1000);
   };
 
@@ -88,8 +88,6 @@ class Game extends React.Component<GameProps, GameState> {
     if (this.state.count >= 4) {
       this.isEndGame();
     }
-
-    //console.log(this.state.isEnd);
   };
 
   componentDidMount() {
@@ -100,14 +98,24 @@ class Game extends React.Component<GameProps, GameState> {
   componentDidUpdate() {
     //console.log("componentDidUpdate");
 
+    if (this.props.newGame) {
+      //this.setState({ isEnd: true });
+      this.setState({
+        cells: Array(9).fill(null),
+        count: 0,
+        isEnd: false,
+        resultMessage: "",
+      });
+      console.log("componentDidUpdate " + this.props.newGame);
+      console.log("isEnd " + this.state.isEnd);
+    }
+
     this.resetGame();
 
     const stateLocal = localStorage.setItem(
       "stateLocal",
       JSON.stringify(this.state)
     );
-    //console.log("componentDidUpDate");
-    //console.log(this.state);
   }
   //componentWillUnmount() {}
 

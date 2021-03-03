@@ -7,7 +7,7 @@ export default function Field(): JSX.Element {
   const classes = useStyles();
   return (
     <div className={classes.root}>
-      <Game name="123" />
+      {/* <Game name="123" /> */}
       <Button
         color="primary"
         onClick={() => {
