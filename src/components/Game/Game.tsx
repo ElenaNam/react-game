@@ -44,10 +44,12 @@ class Game extends React.Component<GameProps, GameState> {
         console.log(line);
         message = `${innerCell} win!`;
         this.setState({ isEnd: true, resultMessage: message });
-      }
-      if (this.state.count === 8) {
-        message = "Ничья!";
-        this.setState({ isEnd: true, resultMessage: message });
+      } else {
+        if (this.state.count >= 8) {
+          console.log(this.state.count);
+          message = "Ничья!";
+          this.setState({ isEnd: true, resultMessage: message });
+        }
       }
     }
     return;
@@ -66,7 +68,7 @@ class Game extends React.Component<GameProps, GameState> {
         resultMessage: "",
       });
       //console.log(this.state);
-    }, 3000);
+    }, 1000);
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -88,6 +90,7 @@ class Game extends React.Component<GameProps, GameState> {
 
     //console.log(this.state.isEnd);
   };
+
   componentDidMount() {
     //console.log("componentDidMount");
   }
@@ -99,6 +102,7 @@ class Game extends React.Component<GameProps, GameState> {
     //console.log("componentDidUpDate");
     //console.log(this.state);
   }
+  //componentWillUnmount() {}
 
   render() {
     const cells = this.state.cells;
