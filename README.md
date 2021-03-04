@@ -18,3 +18,8 @@ Build the app, the files will be available in ./build:
 
 ----------------------------
 
+### 
+
+
+
+[Deploy](https://elenanam.github.io/react-game/tic-tac-toe/)
