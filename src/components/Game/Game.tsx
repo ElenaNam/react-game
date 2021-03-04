@@ -1,7 +1,7 @@
 import React from "react";
 import "./Game.css";
 import lineWin from "../../assets/data/lineWin";
-import { Container, Paper } from "@material-ui/core";
+import { Box, Container, Paper, Typography } from "@material-ui/core";
 
 interface GameProps {
   name: "123";
@@ -13,6 +13,7 @@ interface GameState {
   isEnd: boolean;
   resultMessage: string;
   anim: boolean;
+  next: string;
 }
 
 class Game extends React.Component<GameProps, GameState> {
@@ -27,16 +28,16 @@ class Game extends React.Component<GameProps, GameState> {
       isEnd: false,
       resultMessage: "",
       anim: false,
+      next: "X",
     };
     this.myRef = React.createRef();
-
     this.lineWin = lineWin;
   }
 
   isEndGame = (): void => {
     const innerCell = !(this.state.count % 2) ? "X" : "O";
     let message = "";
-    console.log("isEndGame");
+    //console.log("isEndGame");
     for (let i = 0; i < this.lineWin.length; i++) {
       const line = this.lineWin[i];
       if (
@@ -44,17 +45,18 @@ class Game extends React.Component<GameProps, GameState> {
         this.state.cells[line[1]] === innerCell &&
         this.state.cells[line[2]] === innerCell
       ) {
-        console.log(line);
         message = `${innerCell} win!`;
+        console.log("победа");
         this.setState({ isEnd: true, resultMessage: message });
-      } else {
-        if (this.state.count >= 8) {
-          console.log(this.state.count);
-          message = "Draw!";
-          this.setState({ isEnd: true, resultMessage: message });
-        }
       }
     }
+
+    if (this.state.count === 8) {
+      console.log("ничья");
+      message = "Draw!";
+      this.setState({ isEnd: true, resultMessage: message });
+    }
+
     return;
   };
 
@@ -68,12 +70,14 @@ class Game extends React.Component<GameProps, GameState> {
         isEnd: false,
         resultMessage: "",
         anim: false,
+        next: "X",
       });
     }, 2000);
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   clickHandler = (e: React.MouseEvent<HTMLElement>) => {
+    console.log("клик");
     if (this.state.isEnd) return;
     const target = +e.currentTarget.id - 1;
     const currentCells = this.state.cells;
@@ -81,6 +85,13 @@ class Game extends React.Component<GameProps, GameState> {
       currentCells[target] = !(this.state.count % 2) ? "X" : "O";
       this.setState({ count: this.state.count + 1 });
       this.setState({ cells: currentCells });
+
+      let value = "O";
+      if (this.state.next === "X") value = "O";
+      if (this.state.next === "O") value = "X";
+
+      this.setState({ next: value });
+      console.log("следующий ход делает " + this.state.next);
     } else {
       e.currentTarget.classList.add("busy");
       this.setState({ anim: true });
@@ -99,7 +110,8 @@ class Game extends React.Component<GameProps, GameState> {
   }
 
   componentDidUpdate() {
-    //console.log("componentDidUpdate");
+    console.log("componentDidUpdate");
+    console.log("следующий ход делает " + this.state.next);
 
     if (this.props.newGame) {
       this.setState({
@@ -108,6 +120,7 @@ class Game extends React.Component<GameProps, GameState> {
         isEnd: false,
         resultMessage: "",
         anim: false,
+        next: "X",
       });
     }
 
@@ -125,6 +138,7 @@ class Game extends React.Component<GameProps, GameState> {
     const isEnd = this.state.isEnd;
     const resultMessage = this.state.resultMessage;
     const anim = this.state.anim;
+    const next = this.state.next;
 
     return (
       <Container maxWidth="md" className="root">
@@ -146,6 +160,20 @@ class Game extends React.Component<GameProps, GameState> {
             );
           })}
         </div>
+        {!isEnd ? (
+          <Box
+            mt={10}
+            style={
+              {
+                /* position: "absolute", bottom: 100  */
+              }
+            }
+          >
+            <Typography variant="h3">next move {next}</Typography>
+          </Box>
+        ) : (
+          false
+        )}
       </Container>
     );
   }

@@ -5,6 +5,7 @@ export const useStyles = makeStyles((theme: Theme) =>
     root: {
       //margin: "0 auto",
       position: "absolute",
+      marginTop: 10,
       left: "auto",
       right: "auto",
       display: "flex",

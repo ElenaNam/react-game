@@ -23,6 +23,7 @@ export const useStyles = makeStyles(() => ({
   },
   top: {
     margin: "0 auto",
+    paddingTop: 30,
     position: "relative",
     display: "flex",
     width: "60%",
