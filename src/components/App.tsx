@@ -5,13 +5,17 @@ import Game from "./Game/Game";
 import Settings from "./Settings/Settings";
 import { Typography } from "@material-ui/core";
 import Btn from "./Btn/Btn";
+import Footer from "./Footer/Footer";
+import Header from "./Header/Header";
 
 export const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    width: "90%",
-    height: "95vh",
+    width: "100%",
+    height: "100vh",
+    //width: "90%",
+    //height: "95vh",
     margin: "0 auto",
     // padding: "1% 10%",
     textAlign: "center",
@@ -44,7 +48,8 @@ export default function App(): JSX.Element {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h1">tic-tac-toe</Typography>
+      {/* <Typography variant="h1">tic-tac-toe</Typography> */}
+      <Header />
       {/* <Field /> */}
       <div className={classes.top}>
         <Btn handleClick={handleClick} name="New Game" />
@@ -53,6 +58,7 @@ export default function App(): JSX.Element {
       </div>
 
       <Game name="123" newGame={isNewGame} />
+      <Footer />
     </div>
   );
 }

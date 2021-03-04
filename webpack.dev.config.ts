@@ -28,6 +28,25 @@ const config: webpack.Configuration = {
           },
         },
       },
+      /*       {
+        test: /\.(png|jpe?g|gif|svg)$/,
+        use: {
+          loader: "file-loader",
+          include: [path.resolve(__dirname, "/src/assets/images/")],
+          options: {
+            outputPath: "/assets",
+            name: "[name].[ext]",
+          },
+        },
+      }, */
+      {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        loader: "file-loader",
+        options: {
+          name: "[path][name].[ext]",
+          publicPath: "./",
+        },
+      },
     ],
   },
   resolve: {
@@ -44,11 +63,12 @@ const config: webpack.Configuration = {
     new ESLintPlugin({
       extensions: ["js", "jsx", "ts", "tsx"],
     }),
-    new BundleAnalyzerPlugin(),
+    //new BundleAnalyzerPlugin(),
   ],
   devtool: "inline-source-map",
   devServer: {
-    contentBase: path.join(__dirname, "build"),
+    //contentBase: path.join(__dirname, "build"),
+    contentBase: "./",
     historyApiFallback: true,
     port: 4000,
     open: true,
