@@ -28,17 +28,10 @@ const config: webpack.Configuration = {
           },
         },
       },
-      /*       {
-        test: /\.(png|jpe?g|gif|svg)$/,
-        use: {
-          loader: "file-loader",
-          include: [path.resolve(__dirname, "/src/assets/images/")],
-          options: {
-            outputPath: "/assets",
-            name: "[name].[ext]",
-          },
-        },
-      }, */
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
       {
         test: /\.(png|jpg|jpeg|gif)$/i,
         loader: "file-loader",

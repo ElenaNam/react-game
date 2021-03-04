@@ -1,0 +1,83 @@
+.root {
+  margin-top: 80px;
+}
+
+.field {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  max-width: 480px;
+  max-height: 480px;
+  width: 100%;
+  height: 100%;
+  flex-wrap: wrap;
+}
+.cell {
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+  min-width: 100px;
+  max-width: 160px;
+  max-height: 160px;
+  border: 1px solid black;
+  text-align: center;
+  vertical-align: middle;
+  background: linear-gradient(45deg, #fe6b8b 30%, #ff8e53 90%);
+  transition: 0.5s linear;
+}
+.cell:hover {
+  /* box-shadow: 1px 1px black inset; */
+  box-shadow: 200px 0 0 0 rgba(0, 0, 0, 0.2) inset;
+}
+.cell:active {
+  box-shadow: 200px 0 0 0 rgba(255, 255, 255, 0.2) inset;
+}
+.busy {
+  animation: busy 1s;
+}
+@keyframes busy {
+  from {
+    transform: translateX(30px);
+  }
+  to {
+    transform: translateX(0px);
+  }
+}
+.text {
+  font-size: 80px;
+  color: wheat;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  cursor: default;
+}
+.message {
+  position: absolute;
+  left: 0;
+  right: 0;
+  max-width: 480px;
+  max-height: 480px;
+  width: 100%;
+  height: 100%;
+  font-size: 60px;
+  color: white;
+  padding: 5px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 170, 238, 0.9);
+  z-index: 20;
+  animation: endgame 1s;
+}
+@keyframes endgame {
+  from {
+    opacity: 80%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

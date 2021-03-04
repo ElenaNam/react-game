@@ -1,5 +1,5 @@
 import React from "react";
-import { root, field, cell, text, message } from "./Game.style";
+import "./Game.css";
 import lineWin from "../../assets/data/lineWin";
 import { Container, Paper } from "@material-ui/core";
 
@@ -7,12 +7,12 @@ interface GameProps {
   name: "123";
   newGame: boolean;
 }
-
 interface GameState {
   cells: (string | number | null)[];
   count: number;
   isEnd: boolean;
   resultMessage: string;
+  anim: boolean;
 }
 
 class Game extends React.Component<GameProps, GameState> {
@@ -26,8 +26,10 @@ class Game extends React.Component<GameProps, GameState> {
       count: 0,
       isEnd: false,
       resultMessage: "",
+      anim: false,
     };
     this.myRef = React.createRef();
+
     this.lineWin = lineWin;
   }
 
@@ -57,8 +59,6 @@ class Game extends React.Component<GameProps, GameState> {
   };
 
   resetGame = (): void => {
-    //console.log("reset");
-
     if (!this.state.isEnd) return;
 
     setTimeout(() => {
@@ -67,8 +67,9 @@ class Game extends React.Component<GameProps, GameState> {
         count: 0,
         isEnd: false,
         resultMessage: "",
+        anim: false,
       });
-    }, 1000);
+    }, 2000);
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -80,6 +81,9 @@ class Game extends React.Component<GameProps, GameState> {
       currentCells[target] = !(this.state.count % 2) ? "X" : "O";
       this.setState({ count: this.state.count + 1 });
       this.setState({ cells: currentCells });
+    } else {
+      e.currentTarget.classList.add("busy");
+      this.setState({ anim: true });
     }
 
     //минимальное количество ходов для выигрыша - 5
@@ -93,16 +97,17 @@ class Game extends React.Component<GameProps, GameState> {
       ? this.setState(JSON.parse(localStorage.stateLocal))
       : false;
   }
+
   componentDidUpdate() {
     //console.log("componentDidUpdate");
 
     if (this.props.newGame) {
-      //this.setState({ isEnd: true });
       this.setState({
         cells: Array(9).fill(null),
         count: 0,
         isEnd: false,
         resultMessage: "",
+        anim: false,
       });
     }
 
@@ -119,23 +124,24 @@ class Game extends React.Component<GameProps, GameState> {
     const cells = this.state.cells;
     const isEnd = this.state.isEnd;
     const resultMessage = this.state.resultMessage;
+    const anim = this.state.anim;
 
     return (
-      <Container maxWidth="md" style={root}>
+      <Container maxWidth="md" className="root">
         <Paper elevation={2} />
-        {isEnd ? <div style={message}>{resultMessage}</div> : false}
-        <div style={field}>
+        {isEnd ? <div className="message">{resultMessage}</div> : false}
+        <div className="field">
           {cells.map((item, i) => {
             return (
               <div
-                style={cell}
                 onClick={this.clickHandler}
                 key={i + 1}
                 id={(i + 1).toString()}
-
-                //ref={() => this.myRef}
+                ref={() => this.myRef}
+                onAnimationEnd={() => this.setState({ anim: false })}
+                className={anim ? "cell busy" : "cell"}
               >
-                <span style={text}>{this.state.cells[i]}</span>
+                <span className="text">{this.state.cells[i]}</span>
               </div>
             );
           })}
